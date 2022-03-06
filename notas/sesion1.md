@@ -397,3 +397,177 @@ Util.checkIOFile(file2); // ERROR: IOFile?
 
 ## Interfaces
 
+Las interfaces son definiciones de conjuntos de métodos que pueden ser implementados por las clases o clases abstractas. Sirven para formar estereotipos que le indiquen a la clase qué métodos necesita implementar para que otras clases utilicen modelos basados en interfaces y no en instancias.
+
+    SINTAXIS:
+
+    interface <Nombre> [implements <Otras Interfaces ...>] {
+
+        public <método1>([<tipo parámetro1>, ...]);
+        public <método2>([<tipo parámetro1>, ...]);
+        ...
+
+    }
+
+Por ejemplo, nosotros en un sistema de ventas logramos detectar un conjunto de métodos que pueden abstraídos para realizar una transacción.
+
+> Ejemplo: Interfaz `TransaccionVenta`
+
+```java
+interface TransaccionVenta {
+
+    public boolean carritoAbierto(Carrito carrito);
+
+    public boolean totalValido(Carrito carrito, double total);
+
+    public double obtenerTotalCarrito(Carrito carrito);
+
+    public boolean realizarVenta(Vendedor vendedor, Cliente cliente, Carrito carrito);
+
+}
+```
+
+Entonces las clases y otros métodos podrían recibir a la interfaz como estereotipo, para poder hacer transacciones y generalmente son usadas para establecer consultas, transacciones y demás elementos que se puedan implementar de distintas formas.
+
+> Ejemplo: Se muestra el uso de la interfaz como un servicio
+
+```java
+public boolean hacerVenta(TransaccionVenta servicioVenta) {
+    if (servicioVenta.carritoAbierto(this.carritoCache)) {
+        double totalCache = servicioVenta.obtenerTotalCarrito(this.carritoCache);
+        if (servicioVenta.totalValido(this.carritoReal, totalCache)) {
+            if (servicioVenta.realizarVenta(this.vendedor, this.cliente, this.carritoCache)) {
+                // TODO: Venta exitosa
+                return true;
+            } else {
+                // TODO: No se pudo realizar la venta
+                return false;
+            }
+        } else {
+            // TODO: El total no coincide entre cache y real
+            return false;
+        }
+    } else {
+        // TODO: Informar al usuario que el carrito no está abierto
+        return false;
+    }
+}
+```
+
+Las interfaces nos permitirán utilizar métodos como servicios, sin tener que esperar a que alguien los implemente. Además nos dará la posibilidad de implimentar de múltiples formas la misma interfaz. Por ejemplo, en escenarios móviles, de escritorio, de servidores, basados en la nube o de pruebas. Todo dependiendo de cómo se implemente la interfaz en cada escenario.
+
+Quiénes usen la interfaz no deberán preocuparse de cómo fueron implementados, si usaron bases de datos, servicios en la nube, archivos de excel, o cualquier otra cosa que hayan necesitado al implementar los métodos.
+
+Las interfaces generan comportamientos, no sabemos cómo están implementadas, pero si el comportamiento que producirán. Esto es muy bueno en desarrollos del BDD (`Behavior Development Driven`).
+
+Las clases pueden implementar más de una interfaz y se dice, que la clase adquiere los comportamientos de cada interfaz.
+
+> Ejemplo: Una clase que se comporta como Serializable y Almacenable
+
+```java
+interface Serializable {
+    public byte[] serializar();
+    public void deserializar(byte[]);
+}
+
+interface Almacenable {
+    public boolean save(File file);
+    public boolean load(File file);
+}
+
+class Persona implements Serializable, Almacenable {
+
+    ...
+
+    @Override
+    public byte[] serializar() {
+        // TODO: Convertir nuestros atributos en bytes
+        return ...
+    }
+
+    @Override
+    public void deserializar(byte[]) {
+        // TODO: Convertir nuestros atributos en bytes
+    }
+    
+    @Override
+    public boolean save(File file) {
+        // TODO: Abrir el archivo y guardar nuestro contenido (bytes?)
+        return ...
+    }
+
+    @Override
+    public boolean load(File file) {
+        // TODO: Abrir el archivo y cargamos nuestro contenido (bytes?)
+        return ...
+    }
+
+}
+```
+
+### Ejercicio 1.5
+
+* Diseña las interfaces necesarias que agrupen todas las operaciones posibles en una tienda de renta de películas.
+
+> Ejemplo:
+
+    interface BuscarPelicula {
+        ???
+    }
+
+    interface ExistenciasPelicula {
+        ???
+    }
+
+    interface RentaPelicula {
+        ???
+    }
+
+    interface DevolucionPelicula {
+        ???
+    }
+
+## Clases Abstractas
+
+Las clases abstractas son un intermedio entre lo que es una clase normal y lo que es una interfaz. Las clases abstractas nos van permitir implementar algunos métodos y otros dejarlos sin implementar. A diferencia de las interfaces que no nos permiten implementar nada en los métodos.
+
+> Ejemplo: Robot
+
+```java
+abstract class Robot {
+
+    double x;
+    double y;
+
+    abstract public double radio();
+    abstract public double angulo();
+
+    public void moverAdelante() {
+        double r = this.radio();
+        double a = this.angulo();
+        this.x += r * Math.cos(a);
+        this.y += r * Math.sin(a);
+    }
+
+}
+
+class RobotTerrestre extends Robot {
+
+    @Override
+    public double radio() {
+        return Math.sqrt(x * x + y * y);
+    }
+
+    @Override
+    public double angulo() {
+        return Math.atan2(y, x);
+    }
+
+
+}
+```
+
+### Ejercicio 1.6
+
+* Definir una clase `Contador` que soporte hasta `3` conteos (`a`, `b`, `c`).
+* Cómo podemos agregar métodos abstractos que nos permitan usar ese contador como un reloj de `horas`, `minutos` y `segundos`.
