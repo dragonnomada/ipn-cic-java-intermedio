@@ -1,13 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ipn.cic.s2_paqueteria;
 
-/**
- *
- * @author lanz
- */
-public class PaqueteAlmacenado {
+public class PaqueteAlmacenado extends Paquete {
+    
+    private String almacen = "Almacén por Defecto";
+    int numEstante = 1;
+    int numRepisa = 1;
+    int posicion = 1;
+    int existencias = 0;
+    
+    public void saludar() {
+        // this - Es la referencia al objeto desde adentro
+        
+        //this.id = 456; // ERROR: No hay acceso al `id` de padre porque es privado 
+        
+        this.firmarPaquete("SALUDO");
+        this.densidadPaquete();
+    }
     
 }
