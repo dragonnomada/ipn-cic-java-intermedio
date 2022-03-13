@@ -1,11 +1,10 @@
     BuscadorPaquete
     ---------------------------
     [-] almacen
-    [-] ultimoPaqueteBuscado
-    [-] ultimoAlmacenEncontrado
     [-] ultimoEstanteEncontrado
     [-] ultimaRepisaEncontrada
     [-] ultimaSeccionEncontrada
+    [-] ultimoPaqueteBuscado
     [-] buscando
     [-] encontrado
     [-] paquetesSolicitados
