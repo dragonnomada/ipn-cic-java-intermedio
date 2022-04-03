@@ -70,7 +70,7 @@ public class AppSistemaClientesProductos {
             public void valueChanged(ListSelectionEvent e) {
                 if (e.getValueIsAdjusting()) {
                     if (table1.getSelectedRow() >= 0 && table1.getSelectedColumn() >= 0) {
-                        int id = (Integer) table1.getValueAt(table1.getSelectedRow(), table1.getSelectedColumn());
+                        int id = (Integer) table1.getValueAt(table1.getSelectedRow(), 0);
                         //System.out.println(id);
                         for (Cliente cliente : clientes) {
                             if (cliente.getId() == id) {
