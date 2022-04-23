@@ -53,4 +53,17 @@ public class TodoDB {
         statement.close();
     }
 
+    public void completarTodo(int id, boolean completado) throws SQLException {
+        PreparedStatement statement = this.connection.prepareStatement(
+                "UPDATE todos SET completado=? WHERE id=?"
+        );
+
+        statement.setBoolean(1, completado);
+        statement.setInt(2, id);
+
+        statement.execute();
+
+        statement.close();
+    }
+
 }
