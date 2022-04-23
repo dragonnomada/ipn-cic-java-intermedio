@@ -1,10 +1,8 @@
 package todo;
 
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class TodoDB {
 
@@ -64,6 +62,29 @@ public class TodoDB {
         statement.execute();
 
         statement.close();
+    }
+
+    public ArrayList<Todo> obtenerTodos() throws SQLException {
+        PreparedStatement statement = this.connection.prepareStatement(
+                "SELECT id, titulo, completado FROM todos"
+        );
+
+        ResultSet resultSet = statement.executeQuery();
+
+        ArrayList<Todo> todos = new ArrayList<>();
+
+        while (resultSet.next()) {
+            int id = resultSet.getInt(1);
+            String titulo = resultSet.getString(2);
+            boolean completado = resultSet.getBoolean(3);
+            Todo todo = new Todo(id, titulo, completado);
+            todos.add(todo);
+        }
+
+        resultSet.close();
+        statement.close();
+
+        return todos;
     }
 
 }

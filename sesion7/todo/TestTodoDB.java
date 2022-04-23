@@ -11,9 +11,13 @@ public class TestTodoDB {
 
         //db.agregarTodo("Prueba 2 - Generado desde la prueba TestTodoDB");
 
-        db.completarTodo(1, true);
-        db.completarTodo(2, false);
-        db.completarTodo(3, true);
+        //db.completarTodo(1, true);
+        //db.completarTodo(2, false);
+        //db.completarTodo(3, true);
+
+        for (Todo todo : db.obtenerTodos()) {
+            System.out.println(todo);
+        }
 
         db.close();
 

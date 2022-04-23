@@ -24,4 +24,13 @@ public class Todo {
         return completado;
     }
 
+    @Override
+    public String toString() {
+        return "Todo{" +
+                "id=" + id +
+                ", titulo='" + titulo + '\'' +
+                ", completado=" + completado +
+                '}';
+    }
+
 }
