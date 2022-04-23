@@ -161,4 +161,49 @@ class TestProductoAgregar {
 }
 ```
 
+> Eliminar un Producto `TestProductoEliminar`
+
+```java
+import java.util.Scanner;
+
+class TestProductoAgregar {
+
+    public static void main(String[] args) {
+
+        ProductoDB db = new ProductoDB();
+
+        System.out.println("Productos");
+        System.out.println("------------------------------");
+
+        for (Producto producto : db.obtenerProductos()) {
+            System.out.println(producto);
+        }
+
+        System.out.println("------------------------------");
+
+        Scanner scanner = new Scanner();
+
+        System.out.println("Dame el id del producto:");
+        int id = scanner.nextInt(); scanner.nextLine();
+
+        db.eliminarProducto(id);
+        
+        System.out.println("Producto eliminado exitosamente");
+
+        System.out.println("------------------------------");
+
+        for (Producto producto : db.obtenerProductos()) {
+            System.out.println(producto);
+        }
+
+        System.out.println("------------------------------");
+        
+        scanner.close();
+        
+        db.cerrar();
+    }
+
+}
+```
+
 ## 4. Integrar una Interfaz de Usuario para Administrar Productos
